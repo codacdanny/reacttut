@@ -6,25 +6,27 @@ function AllMeetupsPage() {
   const [isLoading, setIsoading] = useState(true);
   const [loadedMeetups, setLoadedMeetups] = useState([]);
 
-  useEffect(async () => {
+  useEffect(() => {
     setIsoading(true);
-    let data = await (
-      await fetch(
-        "https://my-react-project-1f714-default-rtdb.firebaseio.com/meetupdata.json"
-      )
-    ).json();
-
-    const meetups = [];
-    for (const key in data) {
-      const meetup = {
-        id: key,
-        ...data[key],
-      };
-      meetups.push(meetup);
+    async function getData() {
+      let data = await (
+        await fetch(
+          "https://my-react-project-1f714-default-rtdb.firebaseio.com/meetupdata.json"
+        )
+      ).json();
+      const meetups = [];
+      for (const key in data) {
+        const meetup = {
+          id: key,
+          ...data[key],
+        };
+        meetups.push(meetup);
+      }
+      console.log(meetups);
+      setIsoading(false);
+      setLoadedMeetups(meetups);
     }
-    console.log(meetups);
-    setIsoading(false);
-    setLoadedMeetups(data);
+    getData();
   }, []);
 
   if (isLoading) {

@@ -1,16 +1,18 @@
-import { useRef } from "react";
-
+import { useRef, useState } from "react";
 import Card from "../UI/Card";
 import classes from "./NewmeetupForms.module.css";
 function Newmeetupform(props) {
-  const titleInputRef = useRef();
+  //const titleInputRef = useRef();
+  const [title, setTitle] = useState("");
   const imageInputRef = useRef();
   const addressInputRef = useRef();
   const descriptionInputRef = useRef();
+  let handleChangeTitle = (event) => {
+    setTitle(event.Target.Value);
+  };
   function submitHandler(event) {
     event.preventDefault(); // this prevents the browser's default mode of sending http request to the server and we don't want that
 
-    const enteredTitle = titleInputRef.current.value;
     const enteredImage = imageInputRef.current.value;
 
     const enteredAddress = addressInputRef.current.value;
@@ -18,7 +20,7 @@ function Newmeetupform(props) {
     const enteredDescription = descriptionInputRef.current.value;
 
     const meetupData = {
-      title: enteredTitle,
+      title: title,
       image: enteredImage,
       address: enteredAddress,
       description: enteredDescription,
@@ -32,7 +34,13 @@ function Newmeetupform(props) {
       <form className={classes.form} onSubmit={submitHandler}>
         <div className={classes.control}>
           <label htmlFor="title">Meet up title</label>
-          <input type="text" required id="title" ref={titleInputRef} />
+          <input
+            type="text"
+            required
+            id="title"
+            onChange={handleChangeTitle}
+            value={title}
+          />
         </div>
         <div className={classes.control}>
           <label htmlFor="image">Meet up image</label>
